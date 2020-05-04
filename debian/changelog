@@ -1,5 +1,6 @@
 libtls-openbsd (1.0) UNRELEASED; urgency=medium
 
-  * 
+  * initial version
+  * add missed functions
 
- -- Maxim Zakharov <5158255+Maxime2@users.noreply.github.com>  Mon, 04 May 2020 10:39:10 +1000
+ -- Maxim Zakharov <5158255+Maxime2@users.noreply.github.com>  Mon, 04 May 2020 14:09:30 +1000
