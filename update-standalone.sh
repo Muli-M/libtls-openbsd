@@ -57,11 +57,21 @@ sed -i s/LIBC_CRYPTO_COMPAT/CRYPTO_COMPAT/ libtls-standalone/configure.ac
 if ! $GREP -q am.common libtls-standalone/Makefile.am; then
     sed -i '1 i\include ../Makefile.am.common' libtls-standalone/Makefile.am
 fi
+if ! $GREP -q HAVE_TIMINGSAFE_MEMCMP libtls-standalone/compat/Makefile.am; then
+    sed -i '45 i\
+if !HAVE_TIMINGSAFE_MEMCMP \
+libcompat_la_SOURCES += timingsafe_memcmp.c \
+endif \
+' libtls-standalone/compat/Makefile.am
+fi
 if ! $GREP -q am.common libtls-standalone/src/Makefile.am; then
     sed -i '1 i\include ../../Makefile.am.common' libtls-standalone/src/Makefile.am
     sed -i 's/AM_CFLAGS =/AM_CFLAGS +=/' libtls-standalone/src/Makefile.am
     sed -i '18 i\libtls_la_SOURCES += tls_compat.c' libtls-standalone/src/Makefile.am
-    sed -i '19 a\noinst_HEADERS += tls_compat.h' libtls-standalone/src/Makefile.am
+    sed -i '19 i\libtls_la_SOURCES += tls_keypair.c' libtls-standalone/src/Makefile.am
+    sed -i '20 i\libtls_la_SOURCES += tls_conninfo.c' libtls-standalone/src/Makefile.am
+    sed -i '21 i\libtls_la_SOURCES += tls_ocsp.c' libtls-standalone/src/Makefile.am
+    sed -i '4 i\noinst_HEADERS += tls_compat.h' libtls-standalone/include/Makefile.am
 fi
 if ! $GREP -q string.h libtls-standalone/src/tls.c; then
     sed -i '24 i\#include <string.h>' libtls-standalone/src/tls.c
@@ -78,11 +88,23 @@ fi
 if ! $GREP -q tls_compat.h libtls-standalone/src/tls_server.c; then
     sed -i '29 i\#include "tls_compat.h"' libtls-standalone/src/tls_server.c
 fi
+if ! $GREP -q tls_compat.h libtls-standalone/src/tls_conninfo.c; then
+    sed -i '25 i\#include "tls_compat.h"' libtls-standalone/src/tls_conninfo.c
+fi
+if ! $GREP -q tls_compat.h libtls-standalone/src/tls_ocsp.c; then
+    sed -i '30 i\#include "tls_compat.h"' libtls-standalone/src/tls_ocsp.c
+fi
 if ! $GREP -q string.h libtls-standalone/src/tls_config.c; then
     sed -i '25 i\#include <string.h>' libtls-standalone/src/tls_config.c
 fi
 if ! $GREP -q string.h libtls-standalone/src/tls_util.c; then
     sed -i '24 i\#include <string.h>' libtls-standalone/src/tls_util.c
+fi
+if ! $GREP -q string.h libtls-standalone/src/tls_conninfo.c; then
+    sed -i '24 i\#include <string.h>' libtls-standalone/src/tls_conninfo.c
+fi
+if ! $GREP -q string.h libtls-standalone/src/tls_ocsp.c; then
+    sed -i '24 i\#include <string.h>' libtls-standalone/src/tls_ocsp.c
 fi
 sed -i '/static BIO_METHOD bio_cb_method/,/};/d' libtls-standalone/src/tls_bio_cb.c
 sed -i '/return (&bio/c \
@@ -121,4 +143,14 @@ if ! $GREP -q tls_compat.h libtls-standalone/src/tls.c; then
     sed -i '37 i\#include "tls_compat.h"' libtls-standalone/src/tls.c
 fi
 sed -i 's/ASN1_STRING_data/ASN1_STRING_get0_data/' libtls-standalone/src/tls_verify.c
+sed -i 's/X509_STORE_CTX storectx/X509_STORE_CTX *storectx = X509_STORE_CTX_new()/' libtls-standalone/src/tls_ocsp.c
+sed -i '/X509_STORE_CTX_cleanup(&storectx);/a \
+        X509_STORE_CTX_free(storectx); \
+	X509_OBJECT_free(tmpobj);
+' libtls-standalone/src/tls_ocsp.c
+sed -i 's/&storectx/storectx/' libtls-standalone/src/tls_ocsp.c
+sed -i 's/X509_OBJECT tmpobj/X509_OBJECT *tmpobj = X509_OBJECT_new()/' libtls-standalone/src/tls_ocsp.c
+sed -i '/X509_OBJECT_free_contents(&tmpobj);/d' libtls-standalone/src/tls_ocsp.c
+sed -i 's/&tmpobj/tmpobj/' libtls-standalone/src/tls_ocsp.c
+sed -i 's/tmpobj.data.x509/X509_OBJECT_get0_X509(tmpobj)/' libtls-standalone/src/tls_ocsp.c
 
