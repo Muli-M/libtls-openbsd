@@ -153,4 +153,9 @@ sed -i 's/X509_OBJECT tmpobj/X509_OBJECT *tmpobj = X509_OBJECT_new()/' libtls-st
 sed -i '/X509_OBJECT_free_contents(&tmpobj);/d' libtls-standalone/src/tls_ocsp.c
 sed -i 's/&tmpobj/tmpobj/' libtls-standalone/src/tls_ocsp.c
 sed -i 's/tmpobj.data.x509/X509_OBJECT_get0_X509(tmpobj)/' libtls-standalone/src/tls_ocsp.c
+sed -i '/tls_config_free.config/i \
+        fprintf(stderr, "tls_config_new_internal: %s\\n", \
+			config->error.msg);
+' libtls-standalone/src/tls_config.c
+sed -i 's/+AEAD//g' libtls-standalone/src/tls_internal.h
 
