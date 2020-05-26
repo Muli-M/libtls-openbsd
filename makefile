@@ -1,7 +1,7 @@
 # Makefile for the libtls-openbsd package
 
 MULI_TAG?=1.0
-LIBRESSL_VERSION=3.1.0
+LIBRESSL_VERSION=3.0.2
 ARCH=`dpkg --print-architecture`
 DESTDIR=$(shell pwd)/debian/tmp
 ACLOCAL?=aclocal
