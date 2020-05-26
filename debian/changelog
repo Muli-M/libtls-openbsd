@@ -3,5 +3,6 @@ libtls-openbsd (1.0) UNRELEASED; urgency=medium
   * initial version
   * add missed functions
   * add error output when tls_config fails; remove incompatible cipher flags from default ciphers
+  * downgrade libressl version to 3.0.2
 
- -- Maxim Zakharov <5158255+Maxime2@users.noreply.github.com>  Wed, 06 May 2020 14:15:52 +1000
+ -- Maxim Zakharov <5158255+Maxime2@users.noreply.github.com>  Tue, 26 May 2020 15:27:32 +1000
