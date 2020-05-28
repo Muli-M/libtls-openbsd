@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: Maxim Zakharov <zakhma@muli.com.au>
 Standards-Version: 4.1.4
 
-Package: liblibtls-openbsd
+Package: libtls-openbsd
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: Portable Secure communications using the TLS socket protocol.
