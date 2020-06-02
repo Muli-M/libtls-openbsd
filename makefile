@@ -39,6 +39,8 @@ debian: makefile debian/control v$(LIBRESSL_VERSION).tar.gz
 	dpkg-shlibdeps -ldebian/tmp/usr/local/lib debian/tmp/usr/local/lib/*.so
 	# generate symbols file
 	dpkg-gensymbols
+	# generate triggers file
+	echo "activate-noawait ldconfig" > debian/tmp/DEBIAN/triggers
 	# generate md5sums file
 	find debian/tmp/ -type f -exec md5sum '{}' + | grep -v DEBIAN | sed s#debian/tmp/## > debian/tmp/DEBIAN/md5sums
 	# control
