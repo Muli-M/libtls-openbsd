@@ -5,5 +5,6 @@ libtls-openbsd (1.0) UNRELEASED; urgency=medium
   * add error output when tls_config fails; remove incompatible cipher flags from default ciphers
   * downgrade libressl version to 3.0.2
   * correct package name
+  * add debian/triggers
 
- -- Maxim Zakharov <5158255+Maxime2@users.noreply.github.com>  Thu, 28 May 2020 13:41:13 +1000
+ -- Maxim Zakharov <5158255+Maxime2@users.noreply.github.com>  Tue, 02 Jun 2020 21:10:54 +1000
